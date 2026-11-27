@@ -2,7 +2,7 @@
 [compile]
 ../../core
 ../bar
-com.fasterxml.jackson.core:jackson-core:2.19.0
+com.fasterxml.jackson.core:jackson-core:2.23.0
 
 [compile-only]
 
