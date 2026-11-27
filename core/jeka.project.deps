@@ -1,12 +1,11 @@
 # Syntax : https://jeka-dev.github.io/jeka/reference/api-project/#dependencies_txt
 [compile]
-../../core
-../bar
-com.fasterxml.jackson.core:jackson-core:2.19.0
+com.google.guava:guava:33.8.0-jre
 
 [compile-only]
 
 [runtime]
+com.h2database:h2:2.5.252
 
 [test]
 org.junit.jupiter:junit-jupiter
