@@ -1,5 +1,13 @@
 # Multi-modules Project Example
 
+This example shows how JeKa builds a multi-module project: module declaration, configuration and dependency
+versions inherited from parent directories, dependencies between modules, and programmatic configuration of all
+modules from the parent.
+
+## Prerequisites
+
+[JeKa installed](https://jeka-dev.github.io/jeka/installation/). JeKa downloads the JDK it needs.
+
 ## Project Structure
 
 This project is organized as a multi-module build with the following structure:
@@ -9,24 +17,24 @@ This project is organized as a multi-module build with the following structure:
 ├── core
 │   ├── src    
 │   ├── jeka.properties        <- Configuration specific to core module
-│   └── dependencies.txt       <- Dependencies specific to core module   
+│   └── jeka.project.deps       <- Dependencies specific to core module   
 ├── plugins   
 │   ├── jeka.properties        <- Configuration shared with all plugins
-│   ├── dependencies.txt       <- Dependency versions shared with all plugins           
+│   ├── jeka.project.deps       <- Dependency versions shared with all plugins           
 │   ├── bar                      
 │   │   ├── src             
 │   │   ├── jeka.properties    <- Configuration specific to bar plugin
-│   │   └── dependencies.txt   <- Dependencies specific to bar plugin
+│   │   └── jeka.project.deps   <- Dependencies specific to bar plugin
 │   │   
 │   └── foo             
 │       ├── src
 │       ├── jeka.properties
-│       └── dependencies.txt
+│       └── jeka.project.deps
 │       └── resources 
 ├── jeka-src             
 │   └── ParentCustom.java      <- Programmatic configuration to apply to all modules      
 ├── jeka.properties            <- Configuration for multi-modules
-├── dependencies.txt           <- Dependencies versions shared with all modules              
+├── jeka.project.deps           <- Dependencies versions shared with all modules              
 └── README.md  
 
 ```
@@ -43,7 +51,7 @@ The root `./jeka.properties` file must declare the locations of all modules invo
 ```properties
 _jeka.child-bases=core, plugins/*
 ```
-The `plugins/*` item refers to *"All direct child directories of 'plugins' that contain either a 'jeka.property' file or a 'dependencies.txt' file."*  
+The `plugins/*` item refers to *"All direct child directories of 'plugins' that contain either a 'jeka.properties' file or a 'jeka.project.deps' file."*  
 This approach makes it convenient to manage flat structures using:
 ```properties
 _jeka.child-bases=*
@@ -83,32 +91,38 @@ The parent module can configure all child modules programmatically. For example,
 ```
 
 ## Configure Dependencies
-Dependencies can be declared in the *dependencies.txt* file. The dependencies file inherits from its parent in the same way as *jeka.properties* files.
+Dependencies can be declared in the *jeka.project.deps* file. The dependencies file inherits from its parent in the same way as *jeka.properties* files.
 
-This allows you to centrally declare dependency versions in `./dependencies.txt`. Example:
+This allows you to centrally declare dependency versions in `./jeka.project.deps`. Example:
 ```ini
 [version]
-org.junit:junit-bom:5.12.0@pom
-com.google.guava.guava:34-jre
+org.junit:junit-bom:6.1.3@pom
 ```
 Caution: Only the `[version]` section is inherited.  
 Modules can specify dependencies on each other by using relative directory paths.  
-For example, the contents of *./plugins/foo/dependencies.txt* might look like this:
+For example, the contents of *./plugins/foo/jeka.project.deps* might look like this:
 ```ini
 [compile]
 ../../core
 ../bar
-com.fasterxml.jackson.core:jackson-core:2.19.0
+com.fasterxml.jackson.core:jackson-core:2.23.0
 ```
 
 ## Build all Modules
 
+Compile, test and create the jar of each module:
 ```shell
 jeka build
 ```
 
 ## Build a Single Module
 
+`-cb` takes the path of a declared child base:
 ```shell
-jeka build -cb=plugin 
+jeka build -cb=plugins/foo
 ```
+
+## Links
+
+- [Multi-module projects](https://jeka-dev.github.io/jeka/reference/multi-modules/)
+- [Properties](https://jeka-dev.github.io/jeka/reference/properties/)
