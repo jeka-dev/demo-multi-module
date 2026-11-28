@@ -1,55 +1,14 @@
-#
+# bar plugin module
 
-## JeKa commands
+Plugin module of the [multi-module example](../../README.md). It depends on the [core](../../core) module,
+and uses the `SIMPLE` layout (sources in `src`, tests in `test`), set in [jeka.properties](jeka.properties).
 
-Create jar:
+Build this module only, from the root directory:
 ```shell
-jeka project: pack
+jeka build -cb=plugins/bar
 ```
 
-Clean and create jar:
+From this directory, build a runnable jar and run its `Main` class (it prints `Hello World!Hello World!`):
 ```shell
-jeka project: pack --clean
-```
-
-Run test and create jar:
-```shell
-jeka project:test pack 
-```
-
-Run jar
-```shell
-jeka project: runJar run.programArgs="" run.jvmOptions=""
-```
-
-Synchronize IntelliJ
-```shell
-jeka intellij: sync
-```
-
-### Docker
-
-Create image:
-```shell
-jeka docker: build
-```
-
-Show info about image:
-```shell
-jeka docker: info
-```
-
-Create native image:
-```shell
-jeka docker: buildNative
-```
-
-Show info about native image:
-```shell
-jeka docker: infoNative
-```
-
-Create minimalist Docker image:
-```shell
-jeka docker: buildNative nativeBaseImage=gcr.io/distroless/static-debian12:nonroot native: staticLink=MUSL
+jeka -c -p
 ```

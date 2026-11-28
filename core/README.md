@@ -1,55 +1,14 @@
-#
+# core module
 
-## JeKa commands
+Library module of the [multi-module example](../README.md). The `bar` and `foo` plugins depend on it.
+Its dependencies are in [jeka.project.deps](jeka.project.deps); the JUnit version comes from the root one.
 
-Create jar:
+Build this module only, from the root directory:
 ```shell
-jeka project: pack
+jeka build -cb=core
 ```
 
-Clean and create jar:
+Or run its tests and create its jar from this directory:
 ```shell
-jeka project: pack --clean
-```
-
-Run test and create jar:
-```shell
-jeka project:test pack 
-```
-
-Run jar
-```shell
-jeka project: runJar run.programArgs="" run.jvmOptions=""
-```
-
-Synchronize IntelliJ
-```shell
-jeka intellij: sync
-```
-
-### Docker
-
-Create image:
-```shell
-jeka docker: build
-```
-
-Show info about image:
-```shell
-jeka docker: info
-```
-
-Create native image:
-```shell
-jeka docker: buildNative
-```
-
-Show info about native image:
-```shell
-jeka docker: infoNative
-```
-
-Create minimalist Docker image:
-```shell
-jeka docker: buildNative nativeBaseImage=gcr.io/distroless/static-debian12:nonroot native: staticLink=MUSL
+jeka project: test pack
 ```
